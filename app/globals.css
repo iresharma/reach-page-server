@@ -1,4 +1,15 @@
 * {
     padding: 0;
     margin: 0;
+
+    font-family: "Open Sans", sans-serif;
+}
+
+.links {
+    padding: 1em;
+    min-height: 40vh;
+}
+
+a {
+    text-decoration: none;
 }

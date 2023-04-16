@@ -6,17 +6,14 @@ export const config = {
 };
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
+  title: string;
 }) {
   return (
     <html lang="en">
-      <head>
-        <title>testing title placement</title>
-      </head>
       <body>
-        <button className="button-35">Hi</button>
         {children}
       </body>
     </html>
