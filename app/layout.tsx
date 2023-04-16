@@ -9,7 +9,6 @@ export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
-  title: string;
 }) {
   return (
     <html lang="en">

@@ -2,13 +2,15 @@ import {pages} from "../db"
 import Header from "@/components/header.component";
 import Page404 from "@/components/404.component";
 
+export const config = {
+    runtime: "edge",
+};
+
 type link = {
     name: string;
     link: string;
 }
-export default async function Page({params}: {
-    params: string
-}) {
+export default async function Page({params}: {params: {[key: string]: string};} ) {
     const pageData = await pages.findOne({route: `/${params.route}`})
     if (pageData === null) {
         return <Page404/>
