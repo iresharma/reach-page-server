@@ -2,9 +2,13 @@ import {pages} from "../db"
 import Header from "@/components/header.component";
 import Page404 from "@/components/404.component";
 
-export const config = {
-    runtime: "edge",
-};
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+    const cursor = await pages.find({}, { projection: { route: 1 } });
+    const pageIds = await cursor.toArray();
+    return pageIds.map(el => ({ route: el.route }));
+}
 
 type link = {
     name: string;
