@@ -4,7 +4,7 @@ export default function Header({name, desc, image}: { name: string; desc: string
     return (
         <div className="header">
             <div className="avatar" style={{background: image === undefined ? `url(${image})` : "#bad0fa"}}>
-                {name !== "" && name
+                {(name !== "" && name !== undefined) && name
                     .split(" ")
                     .map((el) => (el.length > 0 ? el[0].toUpperCase() : ""))
                     .join("")}
