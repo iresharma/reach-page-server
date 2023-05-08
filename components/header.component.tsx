@@ -1,8 +1,8 @@
 import "./header.css"
 
-export default function Header({name, desc, image}: { name: string; desc: string; image?: string }) {
+export default function Header({name, desc, image, font, fontColor}: { name: string; desc: string; image?: string; font: string; fontColor: string; }) {
     return (
-        <div className="header">
+        <div className="header" style={{ font: font, color: fontColor }}>
             <div className="avatar" style={{background: image === undefined ? `url(${image})` : "#bad0fa"}}>
                 {(name !== "" && name !== undefined) && name
                     .split(" ")
