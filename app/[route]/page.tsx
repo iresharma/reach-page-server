@@ -38,15 +38,17 @@ export async function generateStaticParams() {
     return pageIds.map(el => ({ route: el.route }));
 }
 
-export async function generateMetadata({ params }) {
-    const cursor = await pages.findOne({ route: `/${params.route}` });
-    const temp = {}
-    // @ts-ignore
-    cursor.template.metaTags.map((el: Meta) => temp[el.type] = el.value)
-    return {
-        title: params.route,
-        ...temp
+async function getPage(route: string) {
+    return await pages.findOne({route: `/${route}`})
+}
+
+export async function generateMetadata({ params }: { params: { route: string; } }) {
+    const product = await getPage(params.route);
+    const temp: { [key: string]: string } = {}
+    if(product !== null) {
+        product.template.metaTags.forEach((el: Meta) => temp[el.type] = el.value)
     }
+    return { title: params.route, ...temp };
 }
 
 export default async function Page({params}: {params: {[key: string]: string};} ) {
