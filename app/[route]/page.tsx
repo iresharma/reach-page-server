@@ -45,16 +45,18 @@ async function getPage(route: string) {
 export async function generateMetadata({ params }: { params: { route: string; } }) {
     const product = await getPage(params.route);
     const temp: { [key: string]: string } = {}
-    if(product !== null) {
-        product.template.metaTags.forEach((el: Meta) => {
-            const type = el.type.split(':')
-            if(type[0] === 'meta') {
-                temp[type[1]] = el.value
-            } else if (type[0] === 'og') {
-                // @ts-ignore
-                temp['openGraph'][type[1]] = el.value
-            }
-        })
+    if(product !== null ) {
+        if(product.template.metaTags) {
+            product.template.metaTags.forEach((el: Meta) => {
+                const type = el.type.split(':')
+                if (type[0] === 'meta') {
+                    temp[type[1]] = el.value
+                } else if (type[0] === 'og') {
+                    // @ts-ignore
+                    temp['openGraph'][type[1]] = el.value
+                }
+            })
+        }
     }
     return { title: params.route, ...temp };
 }
