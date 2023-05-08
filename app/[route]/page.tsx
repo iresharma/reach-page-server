@@ -44,7 +44,7 @@ async function getPage(route: string) {
 
 export async function generateMetadata({ params }: { params: { route: string; } }) {
     const product = await getPage(params.route);
-    const temp: { [key: string]: string } = {}
+    const temp: { [key: string]: string | { [key: string]: string } } = {'openGraph': {}}
     if(product !== null ) {
         if(product.template.metaTags) {
             product.template.metaTags.forEach((el: Meta) => {
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: { params: { route: string; } 
                     temp[type[1]] = el.value
                 } else if (type[0] === 'og') {
                     // @ts-ignore
-                    temp['openGraph'][type[0]] = el.value
+                    temp['openGraph'][type[1]] = el.value
                 }
             })
         }
