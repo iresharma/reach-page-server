@@ -49,11 +49,13 @@ export async function generateMetadata({ params }: { params: { route: string; } 
         if(product.template.metaTags) {
             product.template.metaTags.forEach((el: Meta) => {
                 const type = el.type.split(':')
-                if (type[0] === 'meta') {
+                if (type.length === 0) {
+                    temp[el.type] =el.value
+                } else if (type[0] === 'meta') {
                     temp[type[1]] = el.value
                 } else if (type[0] === 'og') {
                     // @ts-ignore
-                    temp['openGraph'][type[1]] = el.value
+                    temp['openGraph'][type[0]] = el.value
                 }
             })
         }
