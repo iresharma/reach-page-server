@@ -53,7 +53,8 @@ export default function RoutePage({ page }: {page: Page}) {
         flexDirection: "column",
         justifyContent: "space-evenly",
         alignItems: "center",
-        minHeight: "100vh",
+        maxHeight: "100vh",
+        minHeight: "50vh",
         padding: "0 10vw"
     }
     return <div style={docStyle}>
