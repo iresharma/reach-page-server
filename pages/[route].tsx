@@ -2,11 +2,11 @@ import type {MetaTag, Page} from "@/types/page"
 import Head from "next/head";
 import Button from "@/components/button";
 import Header from "@/components/HeaderSection";
-import {CSSProperties} from "react";
+import {CSSProperties, useEffect} from "react";
 
 export async function getStaticPaths() {
     // Call an external API endpoint to get posts
-    const res = await fetch(`${process.env.API_DOMAIN}/page/server`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/page/server`)
     const routes: { Routes: string[] } = await res.json()
 
     // Get the paths we want to pre-render based on posts
@@ -24,7 +24,7 @@ export async function getStaticProps({ params }: { params:{
 } }) {
     // params contains the post `id`.
     // If the route is like /posts/1, then params.id is 1
-    const res = await fetch(`${process.env.API_DOMAIN}/page/${params.route}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/page/${params.route}`)
     const page: Page = await res.json()
 
     // Pass post data to the page via props
@@ -57,11 +57,20 @@ export default function RoutePage({ page }: {page: Page}) {
         minHeight: "50vh",
         padding: "0 10vw"
     }
+
+    useEffect(() => {
+        const params = new URLSearchParams();
+        params.set("page", page.Route)
+        fetch((process.env.NEXT_PUBLIC_ANALYTICS_DOMAIN ?? "") + "/views?" + params, {
+            method:"GET",
+        })
+    }, []);
+
     return <div style={docStyle}>
         <HeadSection metaTags={page.Template.MetaTags} title={page.Route} />
         <Header name={page.Template.Name} desc={page.Template.Desc} image={page.Template.Image} />
         {
-            page.Links.sort((a,b) => a.Sequence - b.Sequence).map(link => <Button className={page.Template.Button} key={link.Sequence} link={link} />)
+            page.Links.sort((a,b) => a.Sequence - b.Sequence).map(link => <Button className={page.Template.Button} key={link.Sequence} link={link} id={link.Id} page_route={page.Route} />)
         }
     </div>
 }
