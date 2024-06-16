@@ -9,7 +9,7 @@ export async function getStaticPaths() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/page/server`)
     const routes: { Routes: string[] } = await res.json()
 
-    if(routes.Routes.length > 0) {
+    if(!routes.Routes || routes.Routes.length > 0) {
         return { paths:[], fallback: false }
     }
 
