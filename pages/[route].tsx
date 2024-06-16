@@ -9,6 +9,10 @@ export async function getStaticPaths() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/page/server`)
     const routes: { Routes: string[] } = await res.json()
 
+    if(routes.Routes.length > 0) {
+        return { paths:[], fallback: false }
+    }
+
     // Get the paths we want to pre-render based on posts
     const paths = routes.Routes.map((route) => ({
         params: { route },
